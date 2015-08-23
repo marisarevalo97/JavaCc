@@ -1,0 +1,27 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+*/
+
+
+options{  static = false;}PARSER_BEGIN(NuevoParser)package uniandes.teolen.parserJavaCC.newParser;
+
+public class NuevoParser{
+  }PARSER_END(NuevoParser)SKIP :{  " "| "\r" | "\t"| "\n"}TOKEN : // OPERATORS {  < PLUS : "+" >| < MINUS : "-" >| < MULTIPLY : "*" >| < DIVIDE : "/" >
+| < EXPONENCIAL : "E" >}TOKEN :{  < CONSTANT : (< DIGIT >)+ ((< EXPONENCIAL >)(< DIGIT >)+)?  >| < #DIGIT : [ "0"-"9" ] >
+| < COMPLEX : (< CONSTANT >)"," (< CONSTANT >)"i" >
+| < LETTER :  ["a"- "z"] >
+| < VARIABLE :  (< LETTER >)+ (< CONSTANT >)* (< LETTER >)*>
+}int one_line() :{}{  exp() ";"  {    return 0;  }| ";"  {    return 1;  }}void exp() :{}{  term()  (    (      < PLUS >    | < MINUS >    )    term()  )*}void term() :{}{  fact()  (    (      < MULTIPLY >    | < DIVIDE >    )    fact()  )*}void fact() :{}{  (< MINUS > )? (  < CONSTANT >| "(" exp() ")"|(< COMPLEX >)|var())
+}
+
+void var() :
+{}
+{
+  //La expresion entre corchetes puede o no ir, para permitir cadenas como "abc+xzy-0"
+  
+  (< VARIABLE >)("["exp()"]")?
+  }      
+  
+
+
+
